@@ -1,9 +1,9 @@
 locals {
-  repo_name = "TODO" # TODO add the name of the repository
+  repo_name = "pagopa-api-config-testing-support"
 
-  display_name = "TODO" # TODO
-  description  = "TODO" # TODO
-  path  = "TODO" # TODO add your base path
+  display_name = "Api config testing support"
+  description  = "Api per interagire con la configurazione,di supporto ai test"
+  path  = "config-test-support/api"
 
   host         = "api.${var.apim_dns_zone_prefix}.${var.external_domain}"
   hostname     = var.hostname

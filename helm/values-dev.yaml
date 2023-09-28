@@ -1,9 +1,9 @@
 microservice-chart:
-  namespace: "your-namespace" # TODO: set your AKS namespace
+  namespace: "apiconfig"
   nameOverride: ""
   fullnameOverride: ""
   image:
-    repository: ghcr.io/pagopa/yourname # TODO
+    repository: ghcr.io/pagopa/pagopa-api-config-testing-support
     tag: "0.0.0"
     pullPolicy: Always
   livenessProbe:
@@ -29,8 +29,8 @@ microservice-chart:
       - 8080
   ingress:
     create: true
-    host: "your.host" # TODO: set the host
-    path: /your-path-here/(.*) # TODO: set your path
+    host: "weudev.apiconfig.internal.dev.platform.pagopa.it"
+    path: /api-config-test-support/(.*)
     servicePort: 8080
   serviceAccount:
     create: false
@@ -62,26 +62,29 @@ microservice-chart:
           type: Utilization # Allowed types are 'Utilization' or 'AverageValue'
           value: "75"
   envConfig:
-    # TODO: set your name
-    WEBSITE_SITE_NAME: 'yourProjectName' # required to show cloud role name in application insights
+    WEBSITE_SITE_NAME: 'pagopa-api-config-testing-support'
     ENV: 'azure-dev'
+    TZ: "Europe/Rome"
     APP_LOGGING_LEVEL: 'DEBUG'
     DEFAULT_LOGGING_LEVEL: 'INFO'
     CORS_CONFIGURATION: '{"origins": ["*"], "methods": ["*"]}'
-
-    OTEL_SERVICE_NAME: # TODO
+    OTEL_SERVICE_NAME: "pagopa-api-config-testing-support"
     OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=azure-dev"
     OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.elastic-system.svc:4317"
     OTEL_TRACES_EXPORTER: otlp
     OTEL_METRICS_EXPORTER: otlp
     OTEL_LOGS_EXPORTER: none
     OTEL_TRACES_SAMPLER: "always_on"
+    DB_CONFIG_URL: "jdbc:postgresql://ndp.d.db-nodo-pagamenti.com:6432/nodo?sslmode=require&prepareThreshold=0&currentSchema=cfg"
+    DB_CONFIG_USER: "cfg"
+    DB_CONFIG_DRIVER: "org.postgresql.Driver"
   envSecret:
     # required
     APPLICATIONINSIGHTS_CONNECTION_STRING: 'ai-d-connection-string'
     OTEL_EXPORTER_OTLP_HEADERS: elastic-auth-header
+    DB_CONFIG_PASSWORD: "postgresql-db-cfg-password"
   keyvault:
-    name: "pagopa-d-name-kv" #TODO
+    name: "pagopa-d-apiconfig-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
   nodeSelector: { }
   tolerations: [ ]
@@ -95,22 +98,4 @@ microservice-chart:
                 values:
                   - user
   canaryDelivery:
-    create: true
-    ingress:
-      create: true
-      canary:
-        type: header
-        headerName: X-Canary
-        headerValue: canary
-        weightPercent: 0
-    service:
-      create: true
-    deployment:
-      create: true
-      image:
-        repository: ghcr.io/pagopa/yourname # TODO
-        tag: "0.0.0"
-        pullPolicy: Always
-      envConfig: { }
-      envSecret: { }
-
+    create: false
