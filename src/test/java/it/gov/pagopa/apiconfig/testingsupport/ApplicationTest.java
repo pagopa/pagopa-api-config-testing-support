@@ -23,9 +23,27 @@ class ApplicationTest {
   @Test
   void runQuery() throws Exception {
     mockMvc
+            .perform(
+                    post("/v1/api/generic/genericQuery")
+                            .content("select 1;"))
+            .andExpect(status().isOk());
+
+    mockMvc
         .perform(
             post("/v1/api/generic/genericQuery")
-                .content("CREATE TABLE test_table (id INT NOT NULL,col1 VARCHAR(50) NOT NULL);"))
+                .content("create table test_table (id INT NOT NULL,col1 VARCHAR(50) NOT NULL);"))
         .andExpect(status().isOk());
+
+    mockMvc
+        .perform(
+            post("/v1/api/generic/genericQuery")
+                .content("insert into test_table(ID, COL1) VALUES(0, 'test insert');"))
+        .andExpect(status().isOk());
+
+    mockMvc
+            .perform(
+                    post("/v1/api/generic/genericQuery")
+                            .content("select * from test_table;"))
+            .andExpect(status().isOk());
   }
 }
