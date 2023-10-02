@@ -1,6 +1,7 @@
 package it.gov.pagopa.apiconfig.testingsupport;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import it.gov.pagopa.apiconfig.testingsupport.controller.GenericQueryController;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
@@ -41,9 +43,8 @@ class ApplicationTest {
         .andExpect(status().isOk());
 
     mockMvc
-            .perform(
-                    post("/v1/api/generic/genericQuery")
-                            .content("select * from test_table;"))
-            .andExpect(status().isOk());
+        .perform(post("/v1/api/generic/genericQuery").content("select * from test_table;"))
+        .andExpect(status().isOk())
+        .andExpect(content().string("[{\"COL1\":\"test insert\",\"ID\":0}]"));
   }
 }
