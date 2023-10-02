@@ -21,6 +21,7 @@ public class GenericQueryController {
   @Autowired
   private GenericQueryService service;
 
+
   @PostMapping("/genericQuery")
   @Operation(
       summary = "Executes the query.",

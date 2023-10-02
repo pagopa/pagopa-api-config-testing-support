@@ -1,16 +1,31 @@
 package it.gov.pagopa.apiconfig.testingsupport;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import it.gov.pagopa.apiconfig.testingsupport.controller.GenericQueryController;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest
+@SpringBootTest(classes = Application.class)
+@AutoConfigureMockMvc
 class ApplicationTest {
 
+  @Autowired
+  private MockMvc mockMvc;
+
   @Test
-  void contextLoads() {
-    // check only if the context is loaded
-    assertTrue(true);
+  void runQuery() throws Exception {
+    mockMvc
+        .perform(
+            post("/v1/api/generic/genericQuery")
+                .content("CREATE TABLE test_table (id INT NOT NULL,col1 VARCHAR(50) NOT NULL);"))
+        .andExpect(status().isOk());
   }
 }

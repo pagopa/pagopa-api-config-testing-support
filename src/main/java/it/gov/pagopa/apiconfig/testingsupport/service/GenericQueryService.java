@@ -6,7 +6,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import org.hibernate.exception.SQLGrammarException;
+import javax.persistence.Query;
+import org.hibernate.query.internal.NativeQueryImpl;
+import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,11 @@ public class GenericQueryService {
   public List getQueryResponse(String query) {
     String sanitizedQuery = sanitizeQuery(query);
     try {
-      return entityManager.createNativeQuery(sanitizedQuery).getResultList();
+      Query nquery = entityManager.createNativeQuery(sanitizedQuery);
+      NativeQueryImpl nativeQuery = (NativeQueryImpl) nquery;
+      nativeQuery.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+      List<java.util.Map<String,Object>> result = nativeQuery.getResultList();
+      return result;
     } catch (PersistenceException pExc) {
       throw new AppException(AppError.WRONG_QUERY_GRAMMAR);
     } catch (Exception e) {
