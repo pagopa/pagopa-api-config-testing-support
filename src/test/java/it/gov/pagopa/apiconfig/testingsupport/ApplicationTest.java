@@ -25,10 +25,10 @@ class ApplicationTest {
   @Test
   void runQuery() throws Exception {
     mockMvc
-            .perform(
-                    post("/v1/api/generic/genericQuery")
-                            .content("select 1;"))
-            .andExpect(status().isOk());
+      .perform(
+              post("/v1/api/generic/genericQuery")
+                      .content("select 1;"))
+      .andExpect(status().isOk());
 
     mockMvc
         .perform(
@@ -43,8 +43,46 @@ class ApplicationTest {
         .andExpect(status().isOk());
 
     mockMvc
-        .perform(post("/v1/api/generic/genericQuery").content("select * from test_table;"))
+        .perform(
+            post("/v1/api/generic/genericQuery")
+                .content("select * from test_table;"))
         .andExpect(status().isOk())
         .andExpect(content().string("[{\"COL1\":\"test insert\",\"ID\":0}]"));
+
+    mockMvc
+        .perform(
+            post("/v1/api/generic/genericQuery")
+                .content("update test_table set col1 = 'updated value' where id = 0"))
+        .andExpect(status().isOk());
+
+    mockMvc
+        .perform(
+            post("/v1/api/generic/genericQuery")
+                .content("truncate table test_table;"))
+        .andExpect(status().isForbidden());
+
+    mockMvc
+        .perform(
+            post("/v1/api/generic/genericQuery")
+                .content("selct * from test_table;"))
+        .andExpect(status().isInternalServerError());
+
+    mockMvc
+        .perform(
+            post("/v1/api/generic/genericQuery")
+                .content("gibberishfoo from bar;"))
+        .andExpect(status().isInternalServerError());
+
+    mockMvc
+        .perform(
+            post("/v1/api/generic/genericQuery")
+                .content("select * from no_table;"))
+        .andExpect(status().isInternalServerError());
+
+    mockMvc
+        .perform(
+            post("/v1/api/generic/genericQuery")
+                .content("select no_col from test_table;"))
+        .andExpect(status().isInternalServerError());
   }
 }
