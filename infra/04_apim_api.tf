@@ -1,9 +1,9 @@
 locals {
   repo_name = "pagopa-api-config-testing-support"
 
-  display_name = "Api config testing support"
-  description  = "Api per interagire con la configurazione,di supporto ai test"
-  path  = "config-test-support/api"
+  display_name = "API Config testing support"
+  description  = "API per interagire con la configurazione,di supporto ai test"
+  path  = "apiconfig-testing-support/api"
 
   host         = "api.${var.apim_dns_zone_prefix}.${var.external_domain}"
   hostname     = var.hostname

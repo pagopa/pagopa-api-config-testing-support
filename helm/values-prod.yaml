@@ -1,101 +1,101 @@
-microservice-chart:
-  namespace: "apiconfig"
-  nameOverride: ""
-  fullnameOverride: ""
-  image:
-    repository: ghcr.io/pagopa/pagopa-api-config-testing-support
-    tag: "0.0.0"
-    pullPolicy: Always
-  livenessProbe:
-    httpGet:
-      path: /actuator/health/liveness
-      port: 8080
-    initialDelaySeconds: 90
-    failureThreshold: 6
-    periodSeconds: 10
-  readinessProbe:
-    httpGet:
-      path: /actuator/health/readiness
-      port: 8080
-    initialDelaySeconds: 90
-    failureThreshold: 6
-    periodSeconds: 10
-  deployment:
-    create: true
-  service:
-    create: true
-    type: ClusterIP
-    ports:
-      - 8080
-  ingress:
-    create: true
-    host: "weudev.apiconfig.internal.dev.platform.pagopa.it"
-    path: /api-config-testing-support/(.*)
-    servicePort: 8080
-  serviceAccount:
-    create: false
-    annotations: { }
-    name: ""
-  podAnnotations: { }
-  podSecurityContext:
-    seccompProfile:
-      type: RuntimeDefault
-  securityContext:
-    allowPrivilegeEscalation: false
-  resources:
-    requests:
-      memory: "400Mi"
-      cpu: "0.2"
-    limits:
-      memory: "640Mi"
-      cpu: "0.25"
-  autoscaling:
-    enable: true
-    minReplica: 1
-    maxReplica: 2
-    pollingInterval: 10 # seconds
-    cooldownPeriod: 50 # seconds
-    triggers:
-      - type: cpu
-        metadata:
-          # Required
-          type: Utilization # Allowed types are 'Utilization' or 'AverageValue'
-          value: "75"
-  envConfig:
-    WEBSITE_SITE_NAME: 'pagopa-api-config-testing-support'
-    ENV: 'azure-prod'
-    TZ: "Europe/Rome"
-    APP_LOGGING_LEVEL: 'INFO'
-    DEFAULT_LOGGING_LEVEL: 'INFO'
-    CORS_CONFIGURATION: '{"origins": ["*"], "methods": ["*"]}'
-    OTEL_SERVICE_NAME: "pagopa-api-config-testing-support"
-    OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=azure-prod"
-    OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.elastic-system.svc:4317"
-    OTEL_TRACES_EXPORTER: otlp
-    OTEL_METRICS_EXPORTER: otlp
-    OTEL_LOGS_EXPORTER: none
-    OTEL_TRACES_SAMPLER: "always_on"
-    DB_CONFIG_URL: "jdbc:postgresql://ndp.p.db-nodo-pagamenti.com:6432/nodo?sslmode=require&prepareThreshold=0&currentSchema=cfg"
-    DB_CONFIG_USER: "cfg"
-    DB_CONFIG_DRIVER: "org.postgresql.Driver"
-  envSecret:
-    # required
-    APPLICATIONINSIGHTS_CONNECTION_STRING: 'ai-p-connection-string'
-    OTEL_EXPORTER_OTLP_HEADERS: elastic-auth-header
-    DB_CONFIG_PASSWORD: "postgresql-db-cfg-password"
-  keyvault:
-    name: "pagopa-d-apiconfig-kv"
-    tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
-  nodeSelector: { }
-  tolerations: [ ]
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: node_type
-                operator: In
-                values:
-                  - user
-  canaryDelivery:
-    create: false
+#microservice-chart:
+#  namespace: "apiconfig"
+#  nameOverride: ""
+#  fullnameOverride: ""
+#  image:
+#    repository: ghcr.io/pagopa/pagopa-api-config-testing-support
+#    tag: "0.0.0"
+#    pullPolicy: Always
+#  livenessProbe:
+#    httpGet:
+#      path: /actuator/health/liveness
+#      port: 8080
+#    initialDelaySeconds: 90
+#    failureThreshold: 6
+#    periodSeconds: 10
+#  readinessProbe:
+#    httpGet:
+#      path: /actuator/health/readiness
+#      port: 8080
+#    initialDelaySeconds: 90
+#    failureThreshold: 6
+#    periodSeconds: 10
+#  deployment:
+#    create: true
+#  service:
+#    create: true
+#    type: ClusterIP
+#    ports:
+#      - 8080
+#  ingress:
+#    create: true
+#    host: "weudev.apiconfig.internal.dev.platform.pagopa.it"
+#    path: /api-config-testing-support/(.*)
+#    servicePort: 8080
+#  serviceAccount:
+#    create: false
+#    annotations: { }
+#    name: ""
+#  podAnnotations: { }
+#  podSecurityContext:
+#    seccompProfile:
+#      type: RuntimeDefault
+#  securityContext:
+#    allowPrivilegeEscalation: false
+#  resources:
+#    requests:
+#      memory: "400Mi"
+#      cpu: "0.2"
+#    limits:
+#      memory: "640Mi"
+#      cpu: "0.25"
+#  autoscaling:
+#    enable: true
+#    minReplica: 1
+#    maxReplica: 2
+#    pollingInterval: 10 # seconds
+#    cooldownPeriod: 50 # seconds
+#    triggers:
+#      - type: cpu
+#        metadata:
+#          # Required
+#          type: Utilization # Allowed types are 'Utilization' or 'AverageValue'
+#          value: "75"
+#  envConfig:
+#    WEBSITE_SITE_NAME: 'pagopa-api-config-testing-support'
+#    ENV: 'azure-prod'
+#    TZ: "Europe/Rome"
+#    APP_LOGGING_LEVEL: 'INFO'
+#    DEFAULT_LOGGING_LEVEL: 'INFO'
+#    CORS_CONFIGURATION: '{"origins": ["*"], "methods": ["*"]}'
+#    OTEL_SERVICE_NAME: "pagopa-api-config-testing-support"
+#    OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=azure-prod"
+#    OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.elastic-system.svc:4317"
+#    OTEL_TRACES_EXPORTER: otlp
+#    OTEL_METRICS_EXPORTER: otlp
+#    OTEL_LOGS_EXPORTER: none
+#    OTEL_TRACES_SAMPLER: "always_on"
+#    DB_CONFIG_URL: "jdbc:postgresql://ndp.p.db-nodo-pagamenti.com:6432/nodo?sslmode=require&prepareThreshold=0&currentSchema=cfg"
+#    DB_CONFIG_USER: "cfg"
+#    DB_CONFIG_DRIVER: "org.postgresql.Driver"
+#  envSecret:
+#    # required
+#    APPLICATIONINSIGHTS_CONNECTION_STRING: 'ai-p-connection-string'
+#    OTEL_EXPORTER_OTLP_HEADERS: elastic-auth-header
+#    DB_CONFIG_PASSWORD: "postgresql-db-cfg-password"
+#  keyvault:
+#    name: "pagopa-d-apiconfig-kv"
+#    tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
+#  nodeSelector: { }
+#  tolerations: [ ]
+#  affinity:
+#    nodeAffinity:
+#      requiredDuringSchedulingIgnoredDuringExecution:
+#        nodeSelectorTerms:
+#          - matchExpressions:
+#              - key: node_type
+#                operator: In
+#                values:
+#                  - user
+#  canaryDelivery:
+#    create: false
