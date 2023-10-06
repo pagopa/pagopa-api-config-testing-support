@@ -1,1 +1,139 @@
-{}
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "testing-support",
+    "description" : "Expose apis for config table crud,for TEST purposes only",
+    "termsOfService" : "https://www.pagopa.gov.it/",
+    "version" : "0.0.0"
+  },
+  "servers" : [ {
+    "url" : "http://localhost",
+    "description" : "Generated server url"
+  } ],
+  "paths" : {
+    "/v1/api/generic/genericQuery" : {
+      "post" : {
+        "tags" : [ "generic-query-controller" ],
+        "summary" : "Executes the query.",
+        "description" : "This endpoint executes the query that is passed after being sanitized and then returns the result.",
+        "operationId" : "getQueryResponse",
+        "requestBody" : {
+          "description" : "Query to be executed.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "string",
+                "example" : "SELECT * FROM TABLE"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "X-Request-Id",
+        "in" : "header",
+        "description" : "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
+        "schema" : {
+          "type" : "string"
+        }
+      } ]
+    }
+  },
+  "components" : {
+    "securitySchemes" : {
+      "ApiKey" : {
+        "type" : "apiKey",
+        "description" : "The API key to access this function app.",
+        "name" : "Ocp-Apim-Subscription-Key",
+        "in" : "header"
+      }
+    }
+  }
+}
