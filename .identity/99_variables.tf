@@ -1,11 +1,11 @@
 locals {
   github = {
     org        = "pagopa"
-    repository = "TODO" #TODO
+    repository = "pagopa-api-config-testing-support"
   }
 
   prefix         = "pagopa"
-  domain         = "TODO" #TODO
+  domain         = "apiconfig"
   location_short = "weu"
   product        = "${var.prefix}-${var.env_short}"
 
