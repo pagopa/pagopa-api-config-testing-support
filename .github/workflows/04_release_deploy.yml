@@ -17,7 +17,7 @@ on:
         options:
           - dev
           - uat
-          - prod
+#          - prod
       semver:
         required: false
         type: choice
