@@ -12,7 +12,7 @@
 
   <groupId>it.gov.pagopa.api-config</groupId>
   <artifactId>testing-support</artifactId>
-  <version>0.0.0-1-NOD-501-pubblicazione-pagopa-api-config-testing-support-su-apim</version>
+  <version>0.0.0-2-NOD-501-pubblicazione-su-apim</version>
   <description>Expose apis for config table crud,for TEST purposes only</description>
 
   <properties>

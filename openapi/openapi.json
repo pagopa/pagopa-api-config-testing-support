@@ -4,7 +4,7 @@
     "title": "testing-support",
     "description": "Expose apis for config table crud,for TEST purposes only",
     "termsOfService": "https://www.pagopa.gov.it/",
-    "version": "0.0.0-1-NOD-501-pubblicazione-pagopa-api-config-testing-support-su-apim"
+    "version": "0.0.0-2-NOD-501-pubblicazione-su-apim"
   },
   "servers": [
     {

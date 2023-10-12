@@ -101,6 +101,6 @@
 #    create: false
 microservice-chart:
   image:
-    tag: 0.0.0-1-NOD-501-pubblicazione-pagopa-api-config-testing-support-su-apim
+    tag: 0.0.0-2-NOD-501-pubblicazione-su-apim
   canaryDelivery:
     create: false
