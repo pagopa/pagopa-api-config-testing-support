@@ -81,7 +81,7 @@ microservice-chart:
   envSecret:
     # required
     APPLICATIONINSIGHTS_CONNECTION_STRING: 'ai-d-connection-string'
-    OTEL_EXPORTER_OTLP_HEADERS: elastic-auth-header
+    OTEL_AUTH_BEARER: "otel-auth-bearer"
     DB_CONFIG_PASSWORD: "postgresql-db-cfg-password"
   keyvault:
     name: "pagopa-d-apiconfig-kv"
