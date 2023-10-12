@@ -124,7 +124,7 @@ jobs:
     if: always()
     steps:
       - name: Report Status
-        if: always()
+        if: ${{ always() && inputs.environment != 'dev' }}
         uses: ravsamhq/notify-slack-action@v2
         with:
           status: ${{ needs.deploy_aks.result }}
