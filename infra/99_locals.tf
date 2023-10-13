@@ -4,7 +4,7 @@ locals {
   apim = {
     name       = "${local.product}-apim"
     rg         = "${local.product}-api-rg"
-    product_id = "apiconfig-testing-support"
+    product_id = "apim_for_node"
   }
 }
 
