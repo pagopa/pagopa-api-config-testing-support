@@ -1,4 +1,5 @@
 locals {
+  count     = var.env_short == "d" ? 1 : 0
   repo_name = "pagopa-api-config-testing-support"
 
   display_name = "API Config testing support"
@@ -10,6 +11,7 @@ locals {
 }
 
 resource "azurerm_api_management_group" "api_group" {
+  count               = local.count
   name                = local.apim.product_id
   resource_group_name = local.apim.rg
   api_management_name = local.apim.name
@@ -18,6 +20,7 @@ resource "azurerm_api_management_group" "api_group" {
 }
 
 resource "azurerm_api_management_api_version_set" "api_version_set" {
+  count               = local.count
   name                = format("%s-${local.repo_name}", var.env_short)
   resource_group_name = local.apim.rg
   api_management_name = local.apim.name
@@ -26,6 +29,7 @@ resource "azurerm_api_management_api_version_set" "api_version_set" {
 }
 
 module "api_v1" {
+  count  = local.count
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.7.0"
 
   name                  = format("%s-${local.repo_name}", var.env_short)
@@ -34,7 +38,7 @@ module "api_v1" {
   product_ids           = [local.apim.product_id]
   subscription_required = true
 
-  version_set_id = azurerm_api_management_api_version_set.api_version_set.id
+  version_set_id = azurerm_api_management_api_version_set.api_version_set[0].id
   api_version    = "v1"
 
   description  = local.description
@@ -53,4 +57,3 @@ module "api_v1" {
     hostname = var.hostname
   })
 }
-
