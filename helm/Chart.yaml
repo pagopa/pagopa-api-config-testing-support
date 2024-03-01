@@ -1,6 +1,6 @@
 apiVersion: v2
-name: pagopa-afm-calculator
-description: Microservice that handles calculation for pagoPA Advanced Fees Management
+name: apiconfig-testing-support
+description: Microservice that handles tests about nodo dei pagamenti
 type: application
 version: 0.7.0
 appVersion: 0.0.0-7-NOD-494-fix-code
