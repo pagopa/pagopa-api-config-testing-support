@@ -101,6 +101,6 @@
 #    create: false
 microservice-chart:
   image:
-    tag: 0.0.0-8-NOD-494-fix-code
+    tag: 0.0.0-9-NOD-494-fix-code
   canaryDelivery:
     create: false
