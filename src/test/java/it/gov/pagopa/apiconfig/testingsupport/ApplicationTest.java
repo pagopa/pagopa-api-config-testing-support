@@ -47,7 +47,7 @@ class ApplicationTest {
             post("/genericQuery")
                 .content("select * from test_table;"))
         .andExpect(status().isOk())
-        .andExpect(content().string("[{\"COL1\":\"test insert\",\"ID\":0}]"));
+        .andExpect(content().string("[{\"ID\":0,\"COL1\":\"test insert\"}]"));
 
     mockMvc
         .perform(
