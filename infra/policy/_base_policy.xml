@@ -1,7 +1,7 @@
 <policies>
   <inbound>
     <base />
-    <set-backend-service base-url="https://${hostname}/api-config-testing-support" />
+    <set-backend-service base-url="https://${hostname}/api-config-testing-support/${version}" />
   </inbound>
   <outbound>
     <base />
