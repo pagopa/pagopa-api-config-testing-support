@@ -4,7 +4,7 @@
     "title": "testing-support",
     "description": "@project.description@",
     "termsOfService": "https://www.pagopa.gov.it/",
-    "version": "0.0.0-10-NOD-494-fix-code"
+    "version": "0.0.0-11-NOD-494-fix-code"
   },
   "servers": [
     {
