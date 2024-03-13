@@ -61,14 +61,12 @@ jobs:
         id: helm_generation
         shell: bash
         run: |
-          HELM_ARGS="--debug "
-          if $(USE_POSTGRES); then
-#            HELM_ARGS="$HELM_ARGS --set postgresql.image.tag=$(deploy_version) --set postgresql.forceRedeploy=true --set postgresql.enabled=true
-            HELM_ARGS="$HELM_ARGS --set postgresql.forceRedeploy=true --set postgresql.enabled=true 
+          HELM_ARGS="--debug"
+          if ${USE_POSTGRES}; then
+            HELM_ARGS="$HELM_ARGS --set postgresql.forceRedeploy=true --set postgresql.enabled=true"
           fi
-          if $(USE_ORACLE); then
-#            HELM_ARGS="$HELM_ARGS --set oracle.image.tag=$(deploy_version) --set oracle.forceRedeploy=true --set oracle.enabled=true 
-            HELM_ARGS="$HELM_ARGS --set oracle.forceRedeploy=true --set oracle.enabled=true 
+          if ${USE_ORACLE}; then
+            HELM_ARGS="$HELM_ARGS --set oracle.forceRedeploy=true --set oracle.enabled=true"
           fi
           echo "::set-output name=helm_args::$HELM_ARGS"
         env:
