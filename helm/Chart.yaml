@@ -1,6 +1,6 @@
 apiVersion: v2
 name: apiconfig-testing-support
-description: Microservice that handles tests about nodo dei pagamenti
+description: Microservice that handles tests about Nodo dei Pagamenti
 type: application
 version: 0.10.0
 appVersion: 0.0.0-10-NOD-494-fix-code
@@ -8,3 +8,11 @@ dependencies:
   - name: microservice-chart
     version: 2.8.0
     repository: "https://pagopa.github.io/aks-microservice-chart-blueprint"
+    alias: postgresql
+    condition: postgresql.enabled
+
+  - name: microservice-chart
+    version: 2.8.0
+    repository: "https://pagopa.github.io/aks-microservice-chart-blueprint"
+    alias: oracle
+    condition: oracle.enabled

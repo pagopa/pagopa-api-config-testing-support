@@ -11,6 +11,14 @@ on:
         required: true
         description: The environment target of the job
         type: string
+      use_oracle:
+        required: true
+        description: Deploy Oracle version
+        type: boolean
+      use_postgres:
+        required: true
+        description: Deploy PoststgreSQL version
+        type: boolean
 
 env:
   APP_NAME: apiconfig-testing-support
@@ -49,6 +57,24 @@ jobs:
     name: Deploy on AKS
     environment: ${{ inputs.environment }}
     steps:
+      - name: Generate Helm option
+        id: helm_generation
+        shell: bash
+        run: |
+          HELM_ARGS="--debug "
+          if $(USE_POSTGRES); then
+#            HELM_ARGS="$HELM_ARGS --set postgresql.image.tag=$(deploy_version) --set postgresql.forceRedeploy=true --set postgresql.enabled=true
+            HELM_ARGS="$HELM_ARGS --set postgresql.forceRedeploy=true --set postgresql.enabled=true 
+          fi
+          if $(USE_ORACLE); then
+#            HELM_ARGS="$HELM_ARGS --set oracle.image.tag=$(deploy_version) --set oracle.forceRedeploy=true --set oracle.enabled=true 
+            HELM_ARGS="$HELM_ARGS --set oracle.forceRedeploy=true --set oracle.enabled=true 
+          fi
+          echo "::set-output name=helm_args::$HELM_ARGS"
+        env:
+          USE_ORACLE: ${{ inputs.use_oracle }}
+          USE_POSTGRES: ${{ inputs.use_postgres }}
+
       - name: Deploy
         uses: pagopa/github-actions-template/aks-deploy@main
         with:
@@ -61,7 +87,7 @@ jobs:
           cluster_name: ${{ vars.CLUSTER_NAME }}
           resource_group: ${{ vars.CLUSTER_RESOURCE_GROUP }}
           app_name: ${{ env.APP_NAME }}
-          helm_upgrade_options: "--debug"
+          helm_upgrade_options: ${{ steps.helm_generation.outputs.helm_args }}
 
   cleanup_runner:
     name: Cleanup Runner
