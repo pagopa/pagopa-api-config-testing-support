@@ -61,7 +61,7 @@ jobs:
         id: helm_generation
         shell: bash
         run: |
-          HELM_ARGS="--debug"
+          HELM_ARGS="--debug --wait --timeout 5m0s"
           if ${USE_POSTGRES}; then
             HELM_ARGS="$HELM_ARGS --set postgresql.forceRedeploy=true --set postgresql.enabled=true"
           fi
