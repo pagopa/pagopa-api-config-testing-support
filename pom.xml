@@ -12,12 +12,13 @@
 
   <groupId>it.gov.pagopa.api-config</groupId>
   <artifactId>testing-support</artifactId>
-  <version>0.0.0-2-NOD-501-pubblicazione-su-apim</version>
+  <version>0.0.0-14-NOD-494-fix-code</version>
   <description>Expose apis for config table crud,for TEST purposes only</description>
 
   <properties>
     <java.version>11</java.version>
     <postgresql.version>42.5.4</postgresql.version>
+    <ojdbc8-version>21.4.0.0</ojdbc8-version>
   </properties>
 
   <repositories>
@@ -90,6 +91,11 @@
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>${postgresql.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle.database.jdbc</groupId>
+      <artifactId>ojdbc8</artifactId>
+      <version>${ojdbc8-version}</version>
     </dependency>
 
     <dependency>

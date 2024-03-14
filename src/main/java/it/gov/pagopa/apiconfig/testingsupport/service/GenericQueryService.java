@@ -10,7 +10,9 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,9 @@ public class GenericQueryService {
   @Value("${dangerous.sql.keywords}")
   private List<String> dangerousKeywordsList;
 
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
+
   @Transactional
   public List getQueryResponse(String query) {
     String sanitizedQuery = sanitizeQuery(query);
@@ -31,8 +36,11 @@ public class GenericQueryService {
       nativeQuery.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
       if(modifying(query)){
         return Collections.singletonList(nativeQuery.executeUpdate());
-      }else{
-        return nativeQuery.getResultList();
+      }
+      else {
+//        return nativeQuery.getResultList();
+        // necessary to maintain the select column order
+        return jdbcTemplate.queryForList(query);
       }
     } catch (PersistenceException pExc) {
       throw new AppException(AppError.WRONG_QUERY_GRAMMAR);
