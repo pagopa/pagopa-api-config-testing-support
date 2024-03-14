@@ -4,7 +4,7 @@ microservice-chart:
   fullnameOverride: ""
   image:
     repository: ghcr.io/pagopa/pagopa-api-config-testing-support
-    tag: "0.0.0-13-NOD-494-fix-code"
+    tag: "0.0.0-14-NOD-494-fix-code"
     pullPolicy: Always
   livenessProbe:
     httpGet:
