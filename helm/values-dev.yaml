@@ -121,7 +121,7 @@ postgresql:
     envSecrets:
       !!merge <<: *envSecret
       DB_CONFIG_PASSWORD: "postgresql-db-cfg-password"
-postgres-nexi:
+postgresql-nexi:
   !!merge <<: *microservice-chart
   ingress:
     !!merge <<: *ingress
