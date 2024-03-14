@@ -12,7 +12,7 @@
 
   <groupId>it.gov.pagopa.api-config</groupId>
   <artifactId>testing-support</artifactId>
-  <version>0.0.0-11-NOD-494-fix-code</version>
+  <version>0.0.0-12-NOD-494-fix-code</version>
   <description>Expose apis for config table crud,for TEST purposes only</description>
 
   <properties>
