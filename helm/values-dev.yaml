@@ -4,7 +4,7 @@ microservice-chart: &microservice-chart
   fullnameOverride: ""
   image:
     repository: ghcr.io/pagopa/pagopa-api-config-testing-support
-    tag: "0.0.1"
+    tag: "0.0.1-2-fix-release-pipeline"
     pullPolicy: Always
   livenessProbe:
     httpGet:
@@ -17,7 +17,7 @@ microservice-chart: &microservice-chart
     httpGet:
       path: /actuator/health/readiness
       port: 8080
-    initialDelaySeconds: 90
+    initialDelaySeconds: 120
     failureThreshold: 6
     periodSeconds: 10
   deployment:
@@ -30,7 +30,6 @@ microservice-chart: &microservice-chart
   ingress: &ingress
     create: true
     host: "weudev.apiconfig.internal.dev.platform.pagopa.it"
-    #    path: /api-config-testing-support/(.*)
     servicePort: 8080
   serviceAccount:
     create: false
@@ -47,7 +46,7 @@ microservice-chart: &microservice-chart
       memory: "400Mi"
       cpu: "0.2"
     limits:
-      memory: "640Mi"
+      memory: "768Mi"
       cpu: "0.25"
   autoscaling:
     enable: true
