@@ -17,7 +17,6 @@ on:
         options:
           - dev
           - uat
-#          - prod
       semver:
         required: false
         type: choice
@@ -46,11 +45,6 @@ on:
         type: boolean
         description: deploy beta version on AKS
         default: false
-#      skip_release:
-#        required: false
-#        type: boolean
-#        description: skip the release. Only deploy
-#        default: false
 
   workflow_call:
     inputs:
@@ -140,9 +134,9 @@ jobs:
     with:
       environment: ${{ matrix.environment }}
       target: ${{ needs.setup.outputs.environment }}
-      use_oracle: ${{ inputs.use_oracle }}
-      use_postgres: ${{ inputs.use_postgres }}
-      use_postgres_nexi: ${{ inputs.use_postgres_nexi }}
+      use_oracle: ${{ inputs.use_oracle != null && inputs.use_oracle || false }}
+      use_postgres: ${{ inputs.use_postgres != null && inputs.use_postgres || true }}
+      use_postgres_nexi: ${{ inputs.use_postgres_nexi != null && inputs.use_postgres_nexi || false }}
     secrets: inherit
 
   notify:
