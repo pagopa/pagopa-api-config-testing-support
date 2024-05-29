@@ -1,4 +1,4 @@
-package it.gov.pagopa.apiconfig.testingsupport; // TODO: refactor the package
+package it.gov.pagopa.apiconfig.testingsupport;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

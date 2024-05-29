@@ -26,62 +26,62 @@ class ApplicationTest {
   void runQuery() throws Exception {
     mockMvc
       .perform(
-              post("/v1/api/generic/genericQuery")
+              post("/genericQuery")
                       .content("select 1;"))
       .andExpect(status().isOk());
 
     mockMvc
         .perform(
-            post("/v1/api/generic/genericQuery")
+            post("/genericQuery")
                 .content("create table test_table (id INT NOT NULL,col1 VARCHAR(50) NOT NULL);"))
         .andExpect(status().isOk());
 
     mockMvc
         .perform(
-            post("/v1/api/generic/genericQuery")
+            post("/genericQuery")
                 .content("insert into test_table(ID, COL1) VALUES(0, 'test insert');"))
         .andExpect(status().isOk());
 
     mockMvc
         .perform(
-            post("/v1/api/generic/genericQuery")
+            post("/genericQuery")
                 .content("select * from test_table;"))
         .andExpect(status().isOk())
-        .andExpect(content().string("[{\"COL1\":\"test insert\",\"ID\":0}]"));
+        .andExpect(content().string("[{\"ID\":0,\"COL1\":\"test insert\"}]"));
 
     mockMvc
         .perform(
-            post("/v1/api/generic/genericQuery")
+            post("/genericQuery")
                 .content("update test_table set col1 = 'updated value' where id = 0"))
         .andExpect(status().isOk());
 
     mockMvc
         .perform(
-            post("/v1/api/generic/genericQuery")
+            post("/genericQuery")
                 .content("truncate table test_table;"))
         .andExpect(status().isForbidden());
 
     mockMvc
         .perform(
-            post("/v1/api/generic/genericQuery")
+            post("/genericQuery")
                 .content("selct * from test_table;"))
         .andExpect(status().isInternalServerError());
 
     mockMvc
         .perform(
-            post("/v1/api/generic/genericQuery")
+            post("/genericQuery")
                 .content("gibberishfoo from bar;"))
         .andExpect(status().isInternalServerError());
 
     mockMvc
         .perform(
-            post("/v1/api/generic/genericQuery")
+            post("/genericQuery")
                 .content("select * from no_table;"))
         .andExpect(status().isInternalServerError());
 
     mockMvc
         .perform(
-            post("/v1/api/generic/genericQuery")
+            post("/genericQuery")
                 .content("select no_col from test_table;"))
         .andExpect(status().isInternalServerError());
   }

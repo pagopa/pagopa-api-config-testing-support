@@ -29,6 +29,18 @@ on:
           - patch
           - new_release
           - breaking_change
+      use_oracle:
+        description: Install Oracle version
+        type: boolean
+        default: false
+      use_postgres:
+        description: Install PostgreSQL version
+        type: boolean
+        default: true
+      use_postgres_nexi:
+        description: Install PostgreSQL Nexi version
+        type: boolean
+        default: true
       beta:
         required: false
         type: boolean
@@ -49,6 +61,18 @@ on:
         required: true
         type: string
         default: skip
+      use_oracle:
+        required: true
+        type: boolean
+        default: false
+      use_postgres:
+        required: true
+        type: boolean
+        default: true
+      use_postgres_nexi:
+        required: true
+        type: boolean
+        default: true
 
 permissions:
   packages: write
@@ -69,7 +93,7 @@ jobs:
     steps:
       - name: Semver setup
         id: semver_setup
-        uses: pagopa/github-actions-template/nodo5-semver-setup@ce252c8501c9242bd6045f7cdd650736b2f38777
+        uses: pagopa/github-actions-template/nodo5-semver-setup@5225a04f93d77fe257acd37f1f1b55109583bbc4
         with:
           semver: ${{ inputs.semver }}
 
@@ -105,6 +129,7 @@ jobs:
           tag: ${{ needs.release.outputs.version }}
 
   deploy_aks:
+
     name: Deploy on AKS
     needs: [ setup, release, image ]
     if: ${{ always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
@@ -115,6 +140,9 @@ jobs:
     with:
       environment: ${{ matrix.environment }}
       target: ${{ needs.setup.outputs.environment }}
+      use_oracle: ${{ inputs.use_oracle }}
+      use_postgres: ${{ inputs.use_postgres }}
+      use_postgres_nexi: ${{ inputs.use_postgres_nexi }}
     secrets: inherit
 
   notify:

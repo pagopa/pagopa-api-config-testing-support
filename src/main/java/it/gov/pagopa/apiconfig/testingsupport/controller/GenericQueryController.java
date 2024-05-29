@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1/api/generic")
 public class GenericQueryController {
+
   @Autowired
   private GenericQueryService service;
 
@@ -38,8 +38,7 @@ public class GenericQueryController {
       @ApiResponse(responseCode = "400", description = "Bad Request"),
       @ApiResponse(responseCode = "403", description = "Forbidden"),
       @ApiResponse(responseCode = "500", description = "Internal Server Error")
-  }
-  )
+  })
   public ResponseEntity<List<Object>> getQueryResponse(@RequestBody String query){
     return ResponseEntity.ok(service.getQueryResponse(query));
   }
