@@ -68,13 +68,13 @@ microservice-chart: &microservice-chart
           value: "75"
   envConfig: &envConfig
     #    WEBSITE_SITE_NAME: 'pagopa-api-config-testing-support'
-    ENV: 'azure-dev'
+    ENV: 'dev'
     TZ: "Europe/Rome"
     APP_LOGGING_LEVEL: 'DEBUG'
     DEFAULT_LOGGING_LEVEL: 'INFO'
     CORS_CONFIGURATION: '{"origins": ["*"], "methods": ["*"]}'
     #    OTEL_SERVICE_NAME: "pagopa-api-config-testing-support"
-    OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=azure-dev"
+    OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=dev"
     OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.elastic-system.svc:4317"
     OTEL_TRACES_EXPORTER: otlp
     OTEL_METRICS_EXPORTER: otlp
