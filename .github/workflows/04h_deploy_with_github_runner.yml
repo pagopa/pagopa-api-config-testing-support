@@ -7,6 +7,10 @@ on:
         required: true
         description: The name of the environment where to deploy
         type: string
+      branch:
+        required: false
+        default: ${{ github.ref_name }}
+        type: string
       target:
         required: true
         description: The environment target of the job
@@ -33,30 +37,9 @@ permissions:
   contents: read
 
 jobs:
-  create_runner:
-    name: Create Runner
-    runs-on: ubuntu-22.04
-    environment:
-      name: ${{ inputs.environment }}
-    if: ${{ inputs.target == inputs.environment || inputs.target == 'all' }}
-    outputs:
-      runner_name: ${{ steps.create_github_runner.outputs.runner_name }}
-    steps:
-      - name: Create GitHub Runner
-        id: create_github_runner
-        # from https://github.com/pagopa/eng-github-actions-iac-template/tree/main/azure/github-self-hosted-runner-azure-create-action
-        uses: pagopa/eng-github-actions-iac-template/azure/github-self-hosted-runner-azure-create-action@main
-        with:
-          client_id: ${{ secrets.CLIENT_ID }}
-          tenant_id: ${{ secrets.TENANT_ID }}
-          subscription_id: ${{ secrets.SUBSCRIPTION_ID }}
-          container_app_environment_name: ${{ vars.CONTAINER_APP_ENVIRONMENT_NAME }}
-          resource_group_name: ${{ vars.CONTAINER_APP_ENVIRONMENT_RESOURCE_GROUP_NAME }} # RG of the runner
-          pat_token: ${{ secrets.BOT_TOKEN_GITHUB }}
-
   deploy:
     needs: [ create_runner ]
-    runs-on: [ self-hosted, "${{ needs.create_runner.outputs.runner_name }}" ]
+    runs-on: [ self-hosted-job, "${{ inputs.environment }}" ]
     if: ${{ inputs.target == inputs.environment || inputs.target == 'all' }}
     name: Deploy on AKS
     environment: ${{ inputs.environment }}
@@ -65,7 +48,7 @@ jobs:
         id: helm_generation
         shell: bash
         run: |
-          HELM_ARGS="--debug --wait --timeout 5m0s"
+          HELM_ARGS="--debug --wait --timeout 5m0s --set microservice-chart.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}} --set postgresql.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}} --set postgresql-nexi.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}} --set oracle.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}}"
           if ${USE_POSTGRES}; then
             HELM_ARGS="$HELM_ARGS --set postgresql.forceRedeploy=true --set postgresql.enabled=true"
           fi
@@ -84,7 +67,7 @@ jobs:
       - name: Deploy
         uses: pagopa/github-actions-template/aks-deploy@main
         with:
-          branch: ${{ github.ref_name }}
+          branch: ${{ inputs.branch }}
           client_id: ${{ secrets.CLIENT_ID }}
           subscription_id: ${{ secrets.SUBSCRIPTION_ID }}
           tenant_id: ${{ secrets.TENANT_ID }}
