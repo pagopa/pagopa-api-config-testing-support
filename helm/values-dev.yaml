@@ -22,6 +22,7 @@ microservice-chart: &microservice-chart
     periodSeconds: 10
   deployment:
     create: true
+    replicas: 1
   service:
     create: true
     type: ClusterIP
@@ -33,9 +34,9 @@ microservice-chart: &microservice-chart
     #    path: /api-config-testing-support/(.*)
     servicePort: 8080
   serviceAccount:
-    create: false
-    annotations: {}
-    name: ""
+    name: "apiconfig-workload-identity"
+  azure:
+    workloadIdentityClientId: <workload-identity-client-id-set-automatically-by-gha>
   podAnnotations: {}
   podSecurityContext:
     seccompProfile:
@@ -112,7 +113,7 @@ postgresql:
   !!merge <<: *microservice-chart
   ingress:
     !!merge <<: *ingress
-    path: /api-config-testing-support/p(/|$)(.*)
+    path: /api-config-testing-support/p/(.*)
   envConfig:
     !!merge <<: *envConfig
     WEBSITE_SITE_NAME: 'pagopa-api-config-postgres-testing-support'
@@ -130,7 +131,7 @@ postgresql-nexi:
   !!merge <<: *microservice-chart
   ingress:
     !!merge <<: *ingress
-    path: /api-config-testing-support/pnexi(/|$)(.*)
+    path: /api-config-testing-support/pnexi/(.*)
   envConfig:
     !!merge <<: *envConfig
     WEBSITE_SITE_NAME: 'pagopa-api-config-postgres-nexi-testing-support'
@@ -148,7 +149,7 @@ oracle:
   !!merge <<: *microservice-chart
   ingress:
     !!merge <<: *ingress
-    path: /api-config-testing-support/o(/|$)(.*)
+    path: /api-config-testing-support/o/(.*)
   envConfig:
     !!merge <<: *envConfig
     WEBSITE_SITE_NAME: 'pagopa-api-config-oracle-testing-support'
