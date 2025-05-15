@@ -47,7 +47,7 @@ jobs:
         id: helm_generation
         shell: bash
         run: |
-          HELM_ARGS="--debug --wait --timeout 5m0s --set microservice-chart.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}} --set postgresql.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}} --set postgresql-nexi.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}} --set oracle.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}}"
+          HELM_ARGS="--debug --wait --timeout 15m0s --set microservice-chart.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}} --set postgresql.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}} --set postgresql-nexi.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}} --set oracle.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}}"
           if ${USE_POSTGRES}; then
             HELM_ARGS="$HELM_ARGS --set postgresql.forceRedeploy=true --set postgresql.enabled=true"
           fi
