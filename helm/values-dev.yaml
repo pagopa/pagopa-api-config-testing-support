@@ -127,38 +127,40 @@ postgresql:
       !!merge <<: *envSecret
       DB_CONFIG_PASSWORD: "postgresql-db-cfg-password"
 postgresql-nexi:
-  !!merge <<: *microservice-chart
-  ingress:
-    !!merge <<: *ingress
-    path: /api-config-testing-support/pnexi(/|$)(.*)
-  envConfig:
-    !!merge <<: *envConfig
-    WEBSITE_SITE_NAME: 'pagopa-api-config-postgres-nexi-testing-support'
-    OTEL_SERVICE_NAME: "pagopa-api-config-postgres-nexi-testing-support"
-    DB_CONFIG_URL: "jdbc:postgresql://db-postgres-ndp.d.db-nodo-pagamenti.com:5444/ndpspct?prepareThreshold=0&currentSchema=NODO4_CFG"
-    DB_CONFIG_USER: "pp_nodo4_cfg"
-    DB_CONFIG_DRIVER: "org.postgresql.Driver"
-    HEALTHCHECK_QUERY: "select 1"
-  secretProvider:
-    !!merge <<: *azureSecretProvider
-    envSecrets:
-      !!merge <<: *envSecret
-      DB_CONFIG_PASSWORD: "db-cfg-password"
+  enabled: false
+#  !!merge <<: *microservice-chart
+#  ingress:
+#    !!merge <<: *ingress
+#    path: /api-config-testing-support/pnexi(/|$)(.*)
+#  envConfig:
+#    !!merge <<: *envConfig
+#    WEBSITE_SITE_NAME: 'pagopa-api-config-postgres-nexi-testing-support'
+#    OTEL_SERVICE_NAME: "pagopa-api-config-postgres-nexi-testing-support"
+#    DB_CONFIG_URL: "jdbc:postgresql://db-postgres-ndp.d.db-nodo-pagamenti.com:5444/ndpspct?prepareThreshold=0&currentSchema=NODO4_CFG"
+#    DB_CONFIG_USER: "pp_nodo4_cfg"
+#    DB_CONFIG_DRIVER: "org.postgresql.Driver"
+#    HEALTHCHECK_QUERY: "select 1"
+#  secretProvider:
+#    !!merge <<: *azureSecretProvider
+#    envSecrets:
+#      !!merge <<: *envSecret
+#      DB_CONFIG_PASSWORD: "db-cfg-password"
 oracle:
-  !!merge <<: *microservice-chart
-  ingress:
-    !!merge <<: *ingress
-    path: /api-config-testing-support/o(/|$)(.*)
-  envConfig:
-    !!merge <<: *envConfig
-    WEBSITE_SITE_NAME: 'pagopa-api-config-oracle-testing-support'
-    OTEL_SERVICE_NAME: "pagopa-api-config-oracle-testing-support"
-    DB_CONFIG_URL: "jdbc:oracle:thin:@(DESCRIPTION=(ENABLE=BROKEN)(ADDRESS=(PROTOCOL=tcp)(PORT=1522)(HOST=db-nodo-pagamenti.d.db-nodo-pagamenti.com))(CONNECT_DATA=(SERVICE_NAME=NDPSPCT_PP_NODO4_CFG))(SO_KEEPALIVE=true)(TCP_KEEPIDLE=60)(TCP_KEEPINTVL=30)(TCP_KEEPCNT=15))"
-    DB_CONFIG_USER: "NODO4_CFG"
-    DB_CONFIG_DRIVER: "oracle.jdbc.OracleDriver"
-    HEALTHCHECK_QUERY: "select 1 from DUAL"
-  secretProvider:
-    !!merge <<: *azureSecretProvider
-    envSecrets:
-      !!merge <<: *envSecret
-      DB_CONFIG_PASSWORD: 'oracle-db-cfg-password'
+  enabled: false
+#  !!merge <<: *microservice-chart
+#  ingress:
+#    !!merge <<: *ingress
+#    path: /api-config-testing-support/o(/|$)(.*)
+#  envConfig:
+#    !!merge <<: *envConfig
+#    WEBSITE_SITE_NAME: 'pagopa-api-config-oracle-testing-support'
+#    OTEL_SERVICE_NAME: "pagopa-api-config-oracle-testing-support"
+#    DB_CONFIG_URL: "jdbc:oracle:thin:@(DESCRIPTION=(ENABLE=BROKEN)(ADDRESS=(PROTOCOL=tcp)(PORT=1522)(HOST=db-nodo-pagamenti.d.db-nodo-pagamenti.com))(CONNECT_DATA=(SERVICE_NAME=NDPSPCT_PP_NODO4_CFG))(SO_KEEPALIVE=true)(TCP_KEEPIDLE=60)(TCP_KEEPINTVL=30)(TCP_KEEPCNT=15))"
+#    DB_CONFIG_USER: "NODO4_CFG"
+#    DB_CONFIG_DRIVER: "oracle.jdbc.OracleDriver"
+#    HEALTHCHECK_QUERY: "select 1 from DUAL"
+#  secretProvider:
+#    !!merge <<: *azureSecretProvider
+#    envSecrets:
+#      !!merge <<: *envSecret
+#      DB_CONFIG_PASSWORD: 'oracle-db-cfg-password'
