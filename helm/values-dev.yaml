@@ -4,7 +4,7 @@ microservice-chart: &microservice-chart
   fullnameOverride: ""
   image:
     repository: ghcr.io/pagopa/pagopa-api-config-testing-support
-    tag: "0.0.2"
+    tag: "0.0.2-1-housekeeping-nexi"
     pullPolicy: Always
   livenessProbe:
     httpGet:
