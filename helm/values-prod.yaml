@@ -101,6 +101,6 @@
 #    create: false
 microservice-chart:
   image:
-    tag: 0.0.2-6-PIDM-487
+    tag: 0.0.2-7-PIDM-487
   canaryDelivery:
     create: false

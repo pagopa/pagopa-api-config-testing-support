@@ -4,7 +4,7 @@
     "title": "testing-support",
     "description": "@project.description@",
     "termsOfService": "https://www.pagopa.gov.it/",
-    "version": "0.0.2-6-PIDM-487"
+    "version": "0.0.2-7-PIDM-487"
   },
   "servers": [
     {
