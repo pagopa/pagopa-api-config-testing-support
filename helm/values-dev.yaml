@@ -10,14 +10,14 @@ microservice-chart: &microservice-chart
     httpGet:
       path: /actuator/health/liveness
       port: 8080
-    initialDelaySeconds: 90
+    initialDelaySeconds: 120
     failureThreshold: 6
     periodSeconds: 10
   readinessProbe:
     httpGet:
       path: /actuator/health/readiness
       port: 8080
-    initialDelaySeconds: 90
+    initialDelaySeconds: 120
     failureThreshold: 6
     periodSeconds: 10
   deployment:
@@ -46,10 +46,10 @@ microservice-chart: &microservice-chart
   resources:
     requests:
       memory: "400Mi"
-      cpu: "0.2"
+      cpu: "0.25"
     limits:
       memory: "640Mi"
-      cpu: "0.25"
+      cpu: "0.3"
   autoscaling:
     enable: false
     #    minReplica: 1
@@ -116,7 +116,7 @@ postgresql:
     !!merge <<: *envConfig
     WEBSITE_SITE_NAME: 'pagopa-api-config-postgres-testing-support'
     OTEL_SERVICE_NAME: "pagopa-api-config-postgres-testing-support"
-    DB_CONFIG_URL: "jdbc:postgresql://ndp.d.db-nodo-pagamenti.com:6432/nodo?sslmode=require&prepareThreshold=0&currentSchema=cfg"
+    DB_CONFIG_URL: "jdbc:postgresql://ndp.d.db-nodo-pagamenti.com:5432/nodo?sslmode=require&prepareThreshold=0&currentSchema=cfg"
     DB_CONFIG_USER: "cfg"
     DB_CONFIG_DRIVER: "org.postgresql.Driver"
     HEALTHCHECK_QUERY: "select 1"
