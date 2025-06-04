@@ -4,7 +4,7 @@ microservice-chart:
   fullnameOverride: ""
   image:
     repository: ghcr.io/pagopa/pagopa-api-config-testing-support
-    tag: "0.0.2-5-PIDM-487"
+    tag: "0.0.2-6-PIDM-487"
     pullPolicy: Always
   livenessProbe:
     httpGet:
@@ -52,16 +52,16 @@ microservice-chart:
       cpu: "0.25"
   autoscaling:
     enable: false
-#    minReplica: 1
-#    maxReplica: 2
-#    pollingInterval: 10 # seconds
-#    cooldownPeriod: 50 # seconds
-#    triggers:
-#      - type: cpu
-#        metadata:
-#          # Required
-#          type: Utilization # Allowed types are 'Utilization' or 'AverageValue'
-#          value: "75"
+    #    minReplica: 1
+    #    maxReplica: 2
+    #    pollingInterval: 10 # seconds
+    #    cooldownPeriod: 50 # seconds
+    #    triggers:
+    #      - type: cpu
+    #        metadata:
+    #          # Required
+    #          type: Utilization # Allowed types are 'Utilization' or 'AverageValue'
+    #          value: "75"
   envConfig:
     WEBSITE_SITE_NAME: 'pagopa-api-config-testing-support'
     ENV: 'uat'
