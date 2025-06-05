@@ -12,11 +12,11 @@
 
   <groupId>it.gov.pagopa.api-config</groupId>
   <artifactId>testing-support</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.2-7-PIDM-487</version>
   <description>Expose apis for config table crud,for TEST purposes only</description>
 
   <properties>
-    <java.version>11</java.version>
+    <java.version>17</java.version>
     <postgresql.version>42.5.4</postgresql.version>
     <ojdbc8-version>21.4.0.0</ojdbc8-version>
   </properties>

@@ -35,14 +35,14 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Code Review
-        uses: pagopa/github-actions-template/maven-code-review@de4ca1ddefb1461c176cc42259e494158b578fe3 # v1.8.3
+        uses: pagopa/github-actions-template/maven-code-review@b134fb7af9a4d8b9b933eafb5cf5e12d88ee8ff1 # v2.2.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           sonar_token: ${{ secrets.SONAR_TOKEN }}
           project_key: ${{env.PROJECT_KEY}}
           coverage_exclusions: "**/config/*,**/*Mock*,**/model/**,**/entity/*"
           cpd_exclusions: "**/model/**,**/entity/*"
-          java_version: '17'
+          java_version: 17
 
 #  smoke-test:
 #    name: Smoke Test
