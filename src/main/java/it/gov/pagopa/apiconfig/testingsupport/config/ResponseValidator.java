@@ -1,19 +1,18 @@
 package it.gov.pagopa.apiconfig.testingsupport.config;
 
 import it.gov.pagopa.apiconfig.testingsupport.exception.AppException;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.util.Set;
 
 @Aspect
 @Component
