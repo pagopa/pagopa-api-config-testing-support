@@ -16,7 +16,7 @@ on:
         description: Select the Environment
         options:
           - dev
-          - uat
+#          - uat
 #          - prod
       semver:
         required: false
@@ -29,10 +29,6 @@ on:
           - patch
           - new_release
           - breaking_change
-      use_postgres:
-        description: Install PostgreSQL version
-        type: boolean
-        default: true
       beta:
         required: false
         type: boolean
@@ -53,10 +49,6 @@ on:
         required: true
         type: string
         default: skip
-      use_postgres:
-        required: true
-        type: boolean
-        default: true
 
 permissions:
   packages: write
