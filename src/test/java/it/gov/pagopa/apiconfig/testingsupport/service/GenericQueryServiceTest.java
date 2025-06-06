@@ -2,6 +2,7 @@ package it.gov.pagopa.apiconfig.testingsupport.service;
 
 import it.gov.pagopa.apiconfig.testingsupport.exception.AppError;
 import it.gov.pagopa.apiconfig.testingsupport.exception.AppException;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,16 +41,32 @@ class GenericQueryServiceTest {
         service.entityManager = entityManager;
     }
 
+//    @Test
+//    void testGetQueryResponse_select() {
+//        String query = "SELECT * FROM TEST";
+//        List<Map<String, Object>> expected = List.of(Collections.singletonMap("col", "val"));
+//
+//        // Mock NativeQueryImpl
+//        NativeQueryImpl nativeQuery = mock(NativeQueryImpl.class);
+//        when(entityManager.createNativeQuery(query)).thenReturn(nativeQuery);
+//        when(nativeQuery.setResultTransformer(any())).thenReturn(nativeQuery);
+//
+//        when(jdbcTemplate.queryForList(query)).thenReturn(expected);
+//
+//        List result = service.getQueryResponse(query);
+//        assertEquals(expected, result);
+//    }
+
     @Test
     void testGetQueryResponse_select() {
         String query = "SELECT * FROM TEST";
         List<Map<String, Object>> expected = List.of(Collections.singletonMap("col", "val"));
 
         // Mock NativeQueryImpl
-        NativeQueryImpl nativeQuery = mock(NativeQueryImpl.class);
+        NativeQuery nativeQuery = mock(NativeQuery.class);
         when(entityManager.createNativeQuery(query)).thenReturn(nativeQuery);
+        when(nativeQuery.unwrap(any())).thenReturn(nativeQuery);
         when(nativeQuery.setResultTransformer(any())).thenReturn(nativeQuery);
-
         when(jdbcTemplate.queryForList(query)).thenReturn(expected);
 
         List result = service.getQueryResponse(query);
@@ -62,8 +79,9 @@ class GenericQueryServiceTest {
         int updateCount = 2;
 
         // Mock NativeQueryImpl
-        NativeQueryImpl nativeQuery = mock(NativeQueryImpl.class);
+        NativeQuery nativeQuery = mock(NativeQuery.class);
         when(entityManager.createNativeQuery(query)).thenReturn(nativeQuery);
+        when(nativeQuery.unwrap(any())).thenReturn(nativeQuery);
         when(nativeQuery.setResultTransformer(any())).thenReturn(nativeQuery);
         when(nativeQuery.executeUpdate()).thenReturn(updateCount);
 
@@ -121,8 +139,9 @@ class GenericQueryServiceTest {
             expected.add(Collections.singletonList(0));
             expected.add(new LinkedList<>());
 
-            NativeQueryImpl nativeQuery = mock(NativeQueryImpl.class);
+            NativeQuery nativeQuery = mock(NativeQuery.class);
             when(entityManager.createNativeQuery(anyString())).thenReturn(nativeQuery);
+            when(nativeQuery.unwrap(any())).thenReturn(nativeQuery);
             when(nativeQuery.setResultTransformer(any())).thenReturn(nativeQuery);
             when(jdbcTemplate.queryForList(query)).thenReturn(expected);
 
@@ -144,8 +163,9 @@ class GenericQueryServiceTest {
             expected.add(Collections.singletonList(0));
             expected.add(Collections.singletonList(0));
 
-            NativeQueryImpl nativeQuery = mock(NativeQueryImpl.class);
+            NativeQuery nativeQuery = mock(NativeQuery.class);
             when(entityManager.createNativeQuery(anyString())).thenReturn(nativeQuery);
+            when(nativeQuery.unwrap(any())).thenReturn(nativeQuery);
             when(nativeQuery.setResultTransformer(any())).thenReturn(nativeQuery);
             when(jdbcTemplate.queryForList(query)).thenReturn(expected);
 
@@ -159,8 +179,9 @@ class GenericQueryServiceTest {
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("massive/massive_wrong.sql")) {
             MockMultipartFile file = new MockMultipartFile("file", inputStream);
 
-            NativeQueryImpl nativeQuery = mock(NativeQueryImpl.class);
+            NativeQuery nativeQuery = mock(NativeQuery.class);
             when(entityManager.createNativeQuery(anyString())).thenReturn(nativeQuery);
+            when(nativeQuery.unwrap(any())).thenReturn(nativeQuery);
             when(jdbcTemplate.queryForList(anyString())).thenThrow(new BadSqlGrammarException(null, null, null));
 
             AppException ex = assertThrows(AppException.class, () -> service.getMassiveQueryResponse(file));

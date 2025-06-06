@@ -3,7 +3,7 @@ package it.gov.pagopa.apiconfig.testingsupport.service;
 import it.gov.pagopa.apiconfig.testingsupport.exception.AppError;
 import it.gov.pagopa.apiconfig.testingsupport.exception.AppException;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.internal.NativeQueryImpl;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.BadSqlGrammarException;
@@ -20,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,10 +37,13 @@ public class GenericQueryService {
   private final JdbcTemplate jdbcTemplate;
 
   @Transactional
-  public List getQueryResponse(String query) {
+  public List<Object> getQueryResponse(String query) {
     String sanitizedQuery = sanitizeQuery(query);
     try {
-      return executeQuery(sanitizedQuery);
+      Collection<?> results = executeQuery(sanitizedQuery);
+      List<Object> objectList = new ArrayList<>(results.size());
+      objectList.addAll((Collection<?>) objectList);
+      return objectList;
     } catch (PersistenceException pExc) {
       throw new AppException(AppError.WRONG_QUERY_GRAMMAR);
     } catch (Exception e) {
@@ -117,7 +121,7 @@ public class GenericQueryService {
 
   private List<?> executeQuery(String query) {
     Query nquery = entityManager.createNativeQuery(query);
-    NativeQueryImpl nativeQuery = (NativeQueryImpl) nquery;
+    NativeQuery<?> nativeQuery = nquery.unwrap(NativeQuery.class);
     nativeQuery.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
     if(modifying(query)){
       return Collections.singletonList(nativeQuery.executeUpdate());
