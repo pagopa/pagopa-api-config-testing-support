@@ -7,17 +7,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+
+import lombok.RequiredArgsConstructor;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.postgresql.util.PSQLException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@RequiredArgsConstructor
 public class GenericQueryService {
 
   @PersistenceContext
@@ -34,8 +35,7 @@ public class GenericQueryService {
   @Value("${dangerous.sql.keywords}")
   List<String> dangerousKeywordsList;
 
-  @Autowired
-  JdbcTemplate jdbcTemplate;
+  private final JdbcTemplate jdbcTemplate;
 
   @Transactional
   public List getQueryResponse(String query) {
@@ -90,7 +90,7 @@ public class GenericQueryService {
       for (String query : queries) {
         results.add(executeQuery(query));
       }
-    } catch (PersistenceException | PSQLException | BadSqlGrammarException pExc) {
+    } catch (PersistenceException | BadSqlGrammarException pExc) {
       throw new AppException(AppError.WRONG_QUERY_GRAMMAR);
     } catch (Exception e) {
       throw new AppException(AppError.INTERNAL_SERVER_ERROR);
@@ -117,7 +117,7 @@ public class GenericQueryService {
     return lowerCase.contains("update") || lowerCase.contains("create table") || lowerCase.contains("insert into");
   }
 
-  private List executeQuery(String query) throws Exception {
+  private List executeQuery(String query) {
     Query nquery = entityManager.createNativeQuery(query);
     NativeQueryImpl nativeQuery = (NativeQueryImpl) nquery;
     nativeQuery.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);

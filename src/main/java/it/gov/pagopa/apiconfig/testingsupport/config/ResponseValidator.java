@@ -4,6 +4,8 @@ import it.gov.pagopa.apiconfig.testingsupport.exception.AppException;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -15,11 +17,10 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
+@RequiredArgsConstructor
 public class ResponseValidator {
 
-  @Autowired
-  private Validator validator;
-
+  private final Validator validator;
 
   /**
    * This method validates the response annotated with the {@link javax.validation.constraints}
@@ -27,8 +28,7 @@ public class ResponseValidator {
    * @param joinPoint not used
    * @param result    the response to validate
    */
-  // TODO: set your package
-  @AfterReturning(pointcut = "execution(* it.gov.pagopa.apiconfig.controller.*.*(..))", returning = "result")
+  @AfterReturning(pointcut = "execution(* it.gov.pagopa.apiconfig.testingsupport.controller.*.*(..))", returning = "result")
   public void validateResponse(JoinPoint joinPoint, Object result) {
     if (result instanceof ResponseEntity) {
       validateResponse((ResponseEntity<?>) result);

@@ -32,10 +32,9 @@ class GenericQueryServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        service = new GenericQueryService();
+        service = new GenericQueryService(jdbcTemplate);
         service.dangerousKeywordsList = Arrays.asList(new String[] {"DROP", "DELETE", "TRUNCATE", "ALTER", "CREATE", "INSERT"});
         service.entityManager = entityManager;
-        service.jdbcTemplate = jdbcTemplate;
     }
 
     @Test

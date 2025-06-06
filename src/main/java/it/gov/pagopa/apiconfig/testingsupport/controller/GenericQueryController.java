@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import it.gov.pagopa.apiconfig.testingsupport.service.GenericQueryService;
 import java.util.List;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.NotBlank;
 
 @RestController
+@RequiredArgsConstructor
 public class GenericQueryController {
 
-  @Autowired
-  private GenericQueryService service;
+  private final GenericQueryService service;
 
 
   @PostMapping("/genericQuery")
