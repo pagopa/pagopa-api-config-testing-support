@@ -4,7 +4,7 @@ microservice-chart:
   fullnameOverride: ""
   image:
     repository: ghcr.io/pagopa/pagopa-api-config-testing-support
-    tag: "0.0.3"
+    tag: "0.0.3-1-PAGOPA-2289-massive"
     pullPolicy: Always
   livenessProbe:
     httpGet:
