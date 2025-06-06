@@ -83,7 +83,7 @@ public class GenericQueryService {
       throw new AppException(AppError.DANGEROUS_QUERY);
     }
 
-    List results = new ArrayList();
+    List<Object> results = new ArrayList<Object>();
     try {
       for (String query : queries) {
         results.add(executeQuery(query));
@@ -115,7 +115,7 @@ public class GenericQueryService {
     return lowerCase.contains("update") || lowerCase.contains("create table") || lowerCase.contains("insert into");
   }
 
-  private List executeQuery(String query) {
+  private List<?> executeQuery(String query) {
     Query nquery = entityManager.createNativeQuery(query);
     NativeQueryImpl nativeQuery = (NativeQueryImpl) nquery;
     nativeQuery.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
