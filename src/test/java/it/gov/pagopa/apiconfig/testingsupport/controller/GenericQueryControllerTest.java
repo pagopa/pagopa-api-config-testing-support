@@ -35,7 +35,7 @@ class GenericQueryControllerTest {
         List<Object> expected = Collections.singletonList("result");
         when(service.getQueryResponse(query)).thenReturn(expected);
 
-        ResponseEntity<List<?>> response = controller.getQueryResponse(query);
+        ResponseEntity<List<Object>> response = controller.getQueryResponse(query);
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(expected, response.getBody());
     }

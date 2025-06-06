@@ -87,7 +87,7 @@ public class GenericQueryService {
       throw new AppException(AppError.DANGEROUS_QUERY);
     }
 
-    List<Object> results = new ArrayList<Object>();
+    List<Object> results = new ArrayList<>();
     try {
       for (String query : queries) {
         results.add(executeQuery(query));

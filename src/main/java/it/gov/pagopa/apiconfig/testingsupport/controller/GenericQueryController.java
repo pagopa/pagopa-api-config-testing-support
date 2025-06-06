@@ -40,7 +40,7 @@ public class GenericQueryController {
                   @ApiResponse(responseCode = "403", description = "Forbidden"),
                   @ApiResponse(responseCode = "500", description = "Internal Server Error")
           })
-  public ResponseEntity<List<?>> getQueryResponse(@RequestBody String query){
+  public ResponseEntity<List<Object>> getQueryResponse(@RequestBody String query){
     return ResponseEntity.ok(service.getQueryResponse(query));
   }
 
