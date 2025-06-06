@@ -68,7 +68,7 @@ module "api_v1_postgres" {
 ################
 
 resource "azurerm_api_management_api_version_set" "api_version_set_oracle" {
-  count               = local.count
+  count               = 0
   name                = "${var.prefix}-${var.env_short}-${local.project_name}-o"
   resource_group_name = local.apim.rg
   api_management_name = local.apim.name
@@ -77,7 +77,7 @@ resource "azurerm_api_management_api_version_set" "api_version_set_oracle" {
 }
 
 module "api_v1_oracle" {
-  count  = local.count
+  count  = 0
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.7.0"
 
   name                  = "${var.prefix}-${var.env_short}-${local.project_name}-o"

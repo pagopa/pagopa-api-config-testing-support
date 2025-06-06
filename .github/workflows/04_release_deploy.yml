@@ -29,16 +29,8 @@ on:
           - patch
           - new_release
           - breaking_change
-      use_oracle:
-        description: Install Oracle version
-        type: boolean
-        default: false
       use_postgres:
         description: Install PostgreSQL version
-        type: boolean
-        default: true
-      use_postgres_nexi:
-        description: Install PostgreSQL Nexi version
         type: boolean
         default: true
       beta:
@@ -61,15 +53,7 @@ on:
         required: true
         type: string
         default: skip
-      use_oracle:
-        required: true
-        type: boolean
-        default: false
       use_postgres:
-        required: true
-        type: boolean
-        default: true
-      use_postgres_nexi:
         required: true
         type: boolean
         default: true
@@ -140,9 +124,6 @@ jobs:
     with:
       environment: ${{ matrix.environment }}
       target: ${{ needs.setup.outputs.environment }}
-      use_oracle: ${{ inputs.use_oracle }}
-      use_postgres: ${{ inputs.use_postgres }}
-      use_postgres_nexi: ${{ inputs.use_postgres_nexi }}
     secrets: inherit
 
   notify:

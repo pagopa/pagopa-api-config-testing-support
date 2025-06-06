@@ -16,15 +16,18 @@ on:
         description: The environment target of the job
         type: string
       use_oracle:
-        required: true
+        required: false
+        default: false
         description: Deploy Oracle version
         type: boolean
       use_postgres:
-        required: true
+        required: false
+        default: true
         description: Deploy PoststgreSQL version
         type: boolean
       use_postgres_nexi:
-        required: true
+        required: false
+        default: false
         description: Deploy PoststgreSQL Nexi version
         type: boolean
 
@@ -76,3 +79,37 @@ jobs:
           resource_group: ${{ vars.CLUSTER_RESOURCE_GROUP }}
           app_name: ${{ env.APP_NAME }}
           helm_upgrade_options: ${{ steps.helm_generation.outputs.helm_args }}
+
+  update_openapi:
+    needs: [ deploy ]
+    runs-on: ubuntu-latest
+    name: Update OpenAPI
+    if: ${{ inputs.target == inputs.environment }}
+    environment: ${{ needs.setting_env.outputs.environment }}
+    steps:
+      - name: Checkout
+        id: checkout
+        # from https://github.com/actions/checkout/commits/main
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b #v4.1.4
+        with:
+          persist-credentials: false
+
+      - name: Read current terraform version
+        run: |
+          VER=$(cat .terraform-version)
+          echo "TERRAFORM_VERSION=$VER" >> $GITHUB_ENV
+
+      - name: Setup Terraform
+        # from https://github.com/hashicorp/setup-terraform/commits/main
+        uses: hashicorp/setup-terraform@97f030cf6dc0b4f5e0da352c7bca9cca34579800 #v3.1.0
+        with:
+          terraform_version: "${{ env.TERRAFORM_VERSION }}"
+
+      - name: Apply terraform.sh
+        uses: pagopa/eng-github-actions-iac-template/azure/terraform-sh-apply-azure-action@ae723dfbdc457ffa6b4acd99f2444fc08c1efb85 #v1.11.0
+        with:
+          client_id: "${{ secrets.CLIENT_ID }}"
+          tenant_id: "${{ secrets.TENANT_ID }}"
+          subscription_id: "${{ secrets.SUBSCRIPTION_ID }}"
+          tf_environment: "weu-${{ needs.setting_env.outputs.environment }}"
+          dir: "infra"
