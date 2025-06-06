@@ -159,7 +159,6 @@ class GenericQueryServiceTest {
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("massive/massive_wrong.sql")) {
             MockMultipartFile file = new MockMultipartFile("file", inputStream);
 
-            String query = "SELECT * FROM";
             NativeQueryImpl nativeQuery = mock(NativeQueryImpl.class);
             when(entityManager.createNativeQuery(anyString())).thenReturn(nativeQuery);
             when(jdbcTemplate.queryForList(anyString())).thenThrow(new BadSqlGrammarException(null, null, null));
