@@ -9,7 +9,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 
-import javax.persistence.PersistenceException;
 import java.util.Collections;
 import java.util.List;
 
