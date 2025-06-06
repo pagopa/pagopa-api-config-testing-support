@@ -42,7 +42,7 @@ public class GenericQueryService {
     try {
       Collection<?> results = executeQuery(sanitizedQuery);
       List<Object> objectList = new ArrayList<>(results.size());
-      objectList.addAll((Collection<?>) objectList);
+      objectList.addAll(results);
       return objectList;
     } catch (PersistenceException pExc) {
       throw new AppException(AppError.WRONG_QUERY_GRAMMAR);
