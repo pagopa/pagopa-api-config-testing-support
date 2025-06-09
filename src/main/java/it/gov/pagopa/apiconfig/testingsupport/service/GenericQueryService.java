@@ -67,7 +67,7 @@ public class GenericQueryService {
           line = line.trim();
 
           // Skip empty lines and SQL comments
-          if (line.isEmpty() || line.startsWith("--") || line.startsWith("//") || line.startsWith("/*")) {
+          if (line.isEmpty() || line.startsWith("--") || line.startsWith("//") || line.startsWith("/*") || line.startsWith("*") || line.startsWith("/*")) {
             continue;
           }
 
