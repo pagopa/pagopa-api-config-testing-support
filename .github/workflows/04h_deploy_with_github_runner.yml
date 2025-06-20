@@ -15,22 +15,9 @@ on:
         required: true
         description: The environment target of the job
         type: string
-      use_oracle:
-        required: true
-        description: Deploy Oracle version
-        type: boolean
-      use_postgres:
-        required: true
-        description: Deploy PoststgreSQL version
-        type: boolean
-      use_postgres_nexi:
-        required: true
-        description: Deploy PoststgreSQL Nexi version
-        type: boolean
 
 env:
   APP_NAME: apiconfig-testing-support
-
 
 permissions:
   id-token: write
@@ -47,16 +34,8 @@ jobs:
         id: helm_generation
         shell: bash
         run: |
-          HELM_ARGS="--debug --wait --timeout 15m0s --set microservice-chart.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}} --set postgresql.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}} --set postgresql-nexi.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}} --set oracle.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}}"
-          if ${USE_POSTGRES}; then
-            HELM_ARGS="$HELM_ARGS --set postgresql.forceRedeploy=true --set postgresql.enabled=true"
-          fi
-          if ${USE_POSTGRES_NEXI}; then
-            HELM_ARGS="$HELM_ARGS --set postgresql-nexi.forceRedeploy=true --set postgresql-nexi.enabled=true"
-          fi
-          if ${USE_ORACLE}; then
-            HELM_ARGS="$HELM_ARGS --set oracle.forceRedeploy=true --set oracle.enabled=true"
-          fi
+          HELM_ARGS="--debug --wait --timeout 15m0s --set microservice-chart.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}} --set postgresql.azure.workloadIdentityClientId=${{vars.WORKLOAD_IDENTITY_ID}}"
+          HELM_ARGS="$HELM_ARGS --set postgresql.forceRedeploy=true --set postgresql.enabled=true"
           echo "::set-output name=helm_args::$HELM_ARGS"
         env:
           USE_ORACLE: ${{ inputs.use_oracle }}
@@ -76,3 +55,43 @@ jobs:
           resource_group: ${{ vars.CLUSTER_RESOURCE_GROUP }}
           app_name: ${{ env.APP_NAME }}
           helm_upgrade_options: ${{ steps.helm_generation.outputs.helm_args }}
+
+  update_openapi:
+    needs: [ deploy ]
+    runs-on: ubuntu-latest
+    name: Update OpenAPI
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout
+        id: checkout
+        # from https://github.com/actions/checkout/commits/main
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b #v4.1.4
+        with:
+          persist-credentials: false
+
+      - name: Setup Terraform
+        # from https://github.com/hashicorp/setup-terraform/commits/main
+        uses: hashicorp/setup-terraform@8feba2b913ea459066180f9cb177f58a881cf146
+        with:
+          terraform_version: ${{ vars.TERRAFORM_VERSION }}
+
+      - name: Login
+        id: login
+        # from https://github.com/Azure/login/commits/master
+        uses: azure/login@92a5484dfaf04ca78a94597f4f19fea633851fa2
+        with:
+          client-id: ${{ secrets.CLIENT_ID }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+
+      - name: Terraform Apply
+        shell: bash
+        run: |
+          cd ./infra
+          export ARM_CLIENT_ID="${{ secrets.CLIENT_ID }}"
+          export ARM_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
+          export ARM_TENANT_ID=$(az account show --query tenantId --output tsv)
+          export ARM_USE_OIDC=true
+          export ARM_ACCESS_KEY=$(az storage account keys list --resource-group io-infra-rg --account-name pagopainfraterraform${{inputs.environment}} --query '[0].value' -o tsv)
+          bash ./terraform.sh init weu-${{ inputs.environment }}
+          bash ./terraform.sh apply weu-${{ inputs.environment }} -auto-approve

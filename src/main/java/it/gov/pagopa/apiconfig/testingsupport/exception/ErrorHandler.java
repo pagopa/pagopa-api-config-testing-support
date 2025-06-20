@@ -1,8 +1,6 @@
 package it.gov.pagopa.apiconfig.testingsupport.exception;
 
 import it.gov.pagopa.apiconfig.testingsupport.model.ProblemJson;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.TypeMismatchException;
@@ -19,6 +17,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -151,9 +152,9 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
       final DataIntegrityViolationException ex, final WebRequest request) {
     ProblemJson errorResponse = null;
 
-    if (ex.getCause() instanceof ConstraintViolationException) {
-      String sqlState = ((ConstraintViolationException) ex.getCause()).getSQLState();
-      var errorCode = ((ConstraintViolationException) ex.getCause()).getSQLException()
+    if (ex.getCause() instanceof ConstraintViolationException cause) {
+      String sqlState = cause.getSQLState();
+      var errorCode = cause.getSQLException()
           .getErrorCode();
       // check the reason of ConstraintViolationException: is true if the object is referenced by a foreign key
       // more info: https://docs.oracle.com/javadb/10.8.3.0/ref/rrefexcept71493.html
