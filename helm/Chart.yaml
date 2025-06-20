@@ -2,8 +2,8 @@ apiVersion: v2
 name: apiconfig-testing-support
 description: Microservice that handles tests about Nodo dei Pagamenti
 type: application
-version: 0.25.0
-appVersion: 0.0.3-1-PAGOPA-2289-massive
+version: 0.26.0
+appVersion: 0.0.4
 dependencies:
   - name: microservice-chart
     version: 7.5.0
