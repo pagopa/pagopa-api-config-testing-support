@@ -6,17 +6,17 @@ version: 0.26.0
 appVersion: 0.0.4
 dependencies:
   - name: microservice-chart
-    version: 7.5.0
+    version: 8.0.2
     repository: "https://pagopa.github.io/aks-microservice-chart-blueprint"
     alias: postgresql
     condition: postgresql.enabled
   - name: microservice-chart
-    version: 7.5.0
+    version: 8.0.2
     repository: "https://pagopa.github.io/aks-microservice-chart-blueprint"
     alias: postgresql-nexi
     condition: postgresql-nexi.enabled
   - name: microservice-chart
-    version: 7.5.0
+    version: 8.0.2
     repository: "https://pagopa.github.io/aks-microservice-chart-blueprint"
     alias: oracle
     condition: oracle.enabled
