@@ -12,7 +12,7 @@
 
   <groupId>it.gov.pagopa.api-config</groupId>
   <artifactId>testing-support</artifactId>
-  <version>0.0.4</version>
+  <version>0.0.5</version>
   <description>Expose apis for config table crud, for TEST purposes only</description>
 
   <properties>

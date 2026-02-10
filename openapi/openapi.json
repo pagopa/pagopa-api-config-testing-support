@@ -4,7 +4,7 @@
     "title": "testing-support",
     "description": "Expose apis for config table crud, for TEST purposes only",
     "termsOfService": "https://www.pagopa.gov.it/",
-    "version": "0.0.4"
+    "version": "0.0.5"
   },
   "servers": [
     {
