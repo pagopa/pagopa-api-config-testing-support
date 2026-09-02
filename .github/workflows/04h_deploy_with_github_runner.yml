@@ -43,7 +43,7 @@ jobs:
           USE_POSTGRES_NEXI: ${{ inputs.use_postgres_nexi }}
 
       - name: Deploy
-        uses: pagopa/github-actions-template/aks-deploy@main
+        uses: pagopa/github-actions-template/aks-deploy@bfb849a1e43acbc9347afae2428a799e0d2efe88 # main
         with:
           branch: ${{ inputs.branch }}
           client_id: ${{ secrets.CLIENT_ID }}
