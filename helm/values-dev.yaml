@@ -118,6 +118,7 @@ postgresql:
     !!merge <<: *ingress
     path: /api-config-testing-support/p/(.*)
   envConfig:
+    JAVA_TOOL_OPTIONS: "-XX:-UseBASE64Intrinsics -XX:UseAVX=2"
     !!merge <<: *envConfig
     WEBSITE_SITE_NAME: 'pagopa-api-config-postgres-testing-support'
     OTEL_SERVICE_NAME: "pagopa-api-config-postgres-testing-support"
@@ -129,6 +130,8 @@ postgresql:
     !!merge <<: *envSecret
     DB_CONFIG_PASSWORD: "postgresql-db-cfg-password"
 postgresql-nexi:
+  envConfig:
+    JAVA_TOOL_OPTIONS: "-XX:-UseBASE64Intrinsics -XX:UseAVX=2"
   enabled: false
 #  !!merge <<: *microservice-chart
 #  ingress:
@@ -148,6 +151,8 @@ postgresql-nexi:
 #      !!merge <<: *envSecret
 #      DB_CONFIG_PASSWORD: "db-cfg-password"
 oracle:
+  envConfig:
+    JAVA_TOOL_OPTIONS: "-XX:-UseBASE64Intrinsics -XX:UseAVX=2"
   enabled: false
 #  !!merge <<: *microservice-chart
 #  ingress:
